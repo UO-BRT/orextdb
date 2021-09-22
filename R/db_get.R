@@ -67,7 +67,7 @@ get_colnames <- function(table) {
       "exam_id", "title", "form", "year"
     ),
     "Items" = c(
-      "item_id", "standard"
+      "item_id", "standard", "item_id_brt"
     ),
     "Preferences" = c(
       "user_id", "name", "value"
@@ -84,7 +84,7 @@ get_colnames <- function(table) {
       "asian_race_flg", "black_race_flg", "white_race_flg",
       "pac_isl_race_flg", "lang_origin", "econ_dsvnt_flg", "title1_flg",
       "sped_flg", "sect504_flg", "migrant_ed_flg", "indian_ed_flg", "el_flg",
-      "distance_learn_flg", "homeschool_flg", "tag_participant_flg",
+      "distance_learn_flg", "homeschool_flg", "tag_potential",
       "tag_intel_gifted", "tag_reading", "tag_math", "tag_creative",
       "tag_leadership", "tag_perform_arts", "transition_prgm", "alted_flg",
       "amerind_tribal_mem", "amerind_tribal_enroll", "ethnic_cd"
@@ -98,7 +98,7 @@ get_colnames <- function(table) {
       "asian_race_flg", "black_race_flg", "white_race_flg",
       "pac_isl_race_flg", "lang_origin", "econ_dsvnt_flg", "title1_flg",
       "sped_flg", "sect504_flg", "migrant_ed_flg", "indian_ed_flg", "el_flg",
-      "distance_learn_flg", "homeschool_flg", "tag_participant_flg",
+      "distance_learn_flg", "homeschool_flg", "tag_potential",
       "tag_intel_gifted", "tag_reading", "tag_math", "tag_creative",
       "tag_leadership", "tag_perform_arts", "transition_prgm", "alted_flg",
       "amerind_tribal_mem", "amerind_tribal_enroll", "ethnic_cd"
