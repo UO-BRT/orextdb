@@ -46,23 +46,24 @@ will be printed for you.
 
 ``` r
 db_get("hardyharhar")
-#> Error: The table you requested is not part of the database. Please request one of the following tables:
-#> Accomodations
-#> Answers
-#> Districts
-#> Exams
-#> Items
-#> Preferences
-#> Schools
-#> Students
-#> Students_old
-#> Submissions
-#> SupplementalDistricts
-#> SupplementalSchools
-#> Tasks
-#> User
-#> UserStudents
-#> UserStudents_old
+#> Error: The table you requested is not part of the database.
+#> Please request one of the following tables:
+#> * Accomodations
+#> * Answers
+#> * Districts
+#> * Exams
+#> * Items
+#> * Preferences
+#> * Schools
+#> * Students
+#> * Students_old
+#> * Submissions
+#> * SupplementalDistricts
+#> * SupplementalSchools
+#> * Tasks
+#> * User
+#> * UserStudents
+#> * UserStudents_old
 ```
 
 Eventually, functions will be built that combine tables in more useful
