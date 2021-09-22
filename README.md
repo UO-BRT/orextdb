@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/UO-BRT/orextdb/workflows/R-CMD-check/badge.svg)](https://github.com/UO-BRT/orextdb/actions)
 <!-- badges: end -->
 
 The goal of **orextdb** is to make data extraction into R easy.
