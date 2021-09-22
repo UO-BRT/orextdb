@@ -29,11 +29,19 @@ db_set_key(key = "mykeyabcdefg")
 ```
 
 This will write a key to your `.Renviron` that is accessible via
-`db_key()`. You generally won’t need to access your key, however, but
-you will need to make sure you restart your R session for the change to
-take effect. Then, you can access any of the tables in the Oregon
-Extended Database. If you don’t know the name of the table you want, you
-can put any text and the available tables will be printed for you.
+`db_key()`. You should only need to do this once, and you will need to
+make sure you restart your R session for the change to take effect.
+Generally, you won’t need to access your key, but if for any reason you
+do, you can always run `db_key()` and your key will be printed to the
+console.
+
+## Accessing data
+
+Once you’ve set your key, you can access any of the tables in the Oregon
+Extended Database via `db_get()`. Just supply the name of the table you
+want, and it will be returned. If you don’t know the name of the table
+you want, you can provide any text you want and the available tables
+will be printed for you.
 
 ``` r
 db_get("hardyharhar")
