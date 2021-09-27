@@ -53,81 +53,81 @@ get_colnames <- function(table) {
   switch(
     table,
     "Accomodations" = c(
-      "submission_id", "accomodation"
+      "submissionID", "accomodation"
     ),
     "Answers" = c(
-      "answer_id", "task_id", "question_id", "score", "duration",
-      "answer_date", "answer", "item_id", "positions", "is_practice",
-      "is_correct", "is_final", "image_name"
+      "answerID", "taskID", "questionID", "score", "duration",
+      "answerDate", "answer", "itemID", "positions", "isPractice",
+      "isCorrect", "isFinal", "imageName"
     ),
     "Districts" = c(
-      "district_id", "name"
+      "districtID", "name"
     ),
     "Exams" = c(
-      "exam_id", "title", "form", "year"
+      "examID", "title", "form", "year"
     ),
     "Items" = c(
-      "item_id", "standard", "item_id_brt"
+      "itemID", "standard", "brtItemID"
     ),
     "Preferences" = c(
-      "user_id", "name", "value"
+      "userID", "name", "value"
     ),
     "Schools" = c(
-      "district_id", "school_id", "name"
+      "districtID", "schoolID", "name"
     ),
     "Students" = c(
-      "student_id", "user_id", "fname", "mname", "lname", "nickname",
-      "gender", "birth_date", "grade", "ssid", "new_ssid", "end_date",
-      "district_id", "school_id", "res_dist_id", "res_sch_id",
-      "dist_stdnt_id", "idea_elig_code1", "idea_elig_code2", "data_source",
-      "date_ineligible", "hisp_eth_flg", "amer_ind_ak_ntv_flg",
-      "asian_race_flg", "black_race_flg", "white_race_flg",
-      "pac_isl_race_flg", "lang_origin", "econ_dsvnt_flg", "title1_flg",
-      "sped_flg", "sect504_flg", "migrant_ed_flg", "indian_ed_flg", "el_flg",
-      "distance_learn_flg", "homeschool_flg", "tag_potential",
-      "tag_intel_gifted", "tag_reading", "tag_math", "tag_creative",
-      "tag_leadership", "tag_perform_arts", "transition_prgm", "alted_flg",
-      "amerind_tribal_mem", "amerind_tribal_enroll", "ethnic_cd"
+      "studentID", "userID", "fname", "mname", "lname", "nickname",
+      "gender", "birthDate", "grade", "SSID", "newSSID", "endDt",
+      "districtID", "schoolID", "resDistID", "resSchID",
+      "distStdntID", "ideaEligCode1", "ideaEligCode2", "dataSource",
+      "dateIneligible", "HispEthnicFg", "AmerIndianAlsknNtvRaceFg",
+      "AsianRaceFg", "BlackRaceFg", "WhiteRaceFg", "PacIsIndrRaceFg",
+      "LangOrgn", "EconDsvntgFg", "Ttl1Fg", "SpEdFg", "Sect504Fg",
+      "MigrntEdFg", "IndianEdFg", "ELFg", "DstncLrnFg", "HomeSchlFg",
+      "TAGPtntTAGFg", "TAGIntlctGiftFg", "TAGAcdmTlntRdFg", "TAGAcdmTlntMaFg",
+      "TAGCrtvAbltyFg", "TAGLdrshpAbltyFg", "TAGPrfmArtsAbltyFg",
+      "TrnstnProgFg", "AltEdProgFg", "AmerIndianTrbMbrshpCd",
+      "AmerIndianTrbEnrlmntNbr", "EthnicCd"
     ),
     "Students_old" = c(
-      "student_id", "user_id", "fname", "mname", "lname", "nickname",
-      "gender", "birth_date", "grade", "ssid", "new_ssid", "end_date",
-      "district_id", "school_id", "res_dist_id", "res_sch_id",
-      "dist_stdnt_id", "idea_elig_code1", "idea_elig_code2", "data_source",
-      "date_ineligible", "hisp_eth_flg", "amer_ind_ak_ntv_flg",
-      "asian_race_flg", "black_race_flg", "white_race_flg",
-      "pac_isl_race_flg", "lang_origin", "econ_dsvnt_flg", "title1_flg",
-      "sped_flg", "sect504_flg", "migrant_ed_flg", "indian_ed_flg", "el_flg",
-      "distance_learn_flg", "homeschool_flg", "tag_potential",
-      "tag_intel_gifted", "tag_reading", "tag_math", "tag_creative",
-      "tag_leadership", "tag_perform_arts", "transition_prgm", "alted_flg",
-      "amerind_tribal_mem", "amerind_tribal_enroll", "ethnic_cd"
+      "studentID", "userID", "fname", "mname", "lname", "nickname",
+      "gender", "birthDate", "grade", "SSID", "newSSID", "endDt",
+      "districtID", "schoolID", "resDistID", "resSchID",
+      "distStdntID", "ideaEligCode1", "ideaEligCode2", "dataSource",
+      "dateIneligible", "HispEthnicFg", "AmerIndianAlsknNtvRaceFg",
+      "AsianRaceFg", "BlackRaceFg", "WhiteRaceFg", "PacIsIndrRaceFg",
+      "LangOrgn", "EconDsvntgFg", "Ttl1Fg", "SpEdFg", "Sect504Fg",
+      "MigrntEdFg", "IndianEdFg", "ELFg", "DstncLrnFg", "HomeSchlFg",
+      "TAGPtntTAGFg", "TAGIntlctGiftFg", "TAGAcdmTlntRdFg", "TAGAcdmTlntMaFg",
+      "TAGCrtvAbltyFg", "TAGLdrshpAbltyFg", "TAGPrfmArtsAbltyFg",
+      "TrnstnProgFg", "AltEdProgFg", "AmerIndianTrbMbrshpCd",
+      "AmerIndianTrbEnrlmntNbr", "EthnicCd"
     ),
     "Submissions" = c(
-      "submission_id", "student_id", "exam_id", "form", "date_started",
-      "date_finished", "date_discont", "completed", "score", "num_correct",
-      "num_attempt", "comment"
+      "submissionID", "studentID", "examID", "form", "dateStarted",
+      "dateFinished", "dateDiscontinued", "completed", "score", "numCorrect",
+      "numAttempted", "comment"
     ),
     "SupplementalDistricts" = c(
-      "user_id", "district_id"
+      "userID", "districtID"
     ),
     "SupplementalSchools" = c(
-      "user_id", "school_id"
+      "userID", "schoolID"
     ),
     "Tasks" = c(
-      "task_id", "submission_id", "task_type", "date_started",
-      "date_finished", "completed", "score", "num_correct"
+      "taskID", "submissionID", "taskType", "dateStarted",
+      "dateFinished", "completed", "score", "numCorrect"
     ),
     "User" = c(
-      "user_id", "user_name", "password", "user_type", "creds_verified",
-      "email", "join_date", "district_id", "school_id", "fname", "lname",
+      "userID", "username", "password", "user_type", "creds_verified",
+      "email", "join_date", "districtID", "schoolID", "fname", "lname",
       "is_dtc", "description"
     ),
     "UserStudents" = c(
-      "student_id", "user_id", "date_added", "comment"
+      "studentID", "userID", "dateAdded", "comment"
     ),
     "UserStudents_old" = c(
-      "student_id", "user_id", "date_added", "comment"
+      "studentID", "userID", "dateAdded", "comment"
     )
   )
 }
