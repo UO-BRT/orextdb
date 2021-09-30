@@ -1,18 +1,20 @@
 Package: orextdb
-Title: What the Package Does (One Line, Title Case)
+Title: Retrieves data from the ORExt live database
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+    person(given = "Daniel",
+             family = "Anderson",
+             role = c("aut", "cre"),
+             email = "daniela@uoregon.edu",
+             comment = c(ORCID = "https://orcid.org/0000-0003-4699-4680"))
+Description: This package downloads any table from the ORExt live database
+  through a secure web API. The `db_get()` function can be use to download
+  any table after first setting a key through the `db_set_key()` function.
 License: CC BY 4.0
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Imports: 
     httr,
     utils

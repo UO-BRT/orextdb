@@ -4,12 +4,12 @@
 \name{orextdb-package}
 \alias{orextdb}
 \alias{orextdb-package}
-\title{orextdb: What the Package Does (One Line, Title Case)}
+\title{orextdb: Retrieves data from the ORExt live database}
 \description{
-What the package does (one paragraph).
+This package downloads any table from the ORExt live database through a secure web API. The `db_get()` function can be use to download any table after first setting a key through the `db_set_key()` function.
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Daniel Anderson \email{daniela@uoregon.edu} (\href{https://orcid.org/0000-0003-4699-4680}{ORCID})
 
 }
 \keyword{internal}
