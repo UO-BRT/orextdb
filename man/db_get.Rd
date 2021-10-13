@@ -4,7 +4,7 @@
 \alias{db_get}
 \title{Function to query the live OR Extended database and return specific tables}
 \usage{
-db_get(table, key = db_key())
+db_get(table, db_names = FALSE, key = db_key())
 }
 \arguments{
 \item{table}{A string specifying the specific table from the Oregon Extended
@@ -12,6 +12,10 @@ live database. Should be one of "Accomodations", "Answers", "Districts",
 "Exams", "Items", "Preferences", "Schools", "Students", "Students_old",
 "Submissions", "SupplementalDistricts", "SupplementalSchools", "Tasks",
 "User", "UserStudents", or "UserStudents_old".}
+
+\item{db_names}{Logical, defaults to \code{FALSE}. Should the original names
+from the database be returned? If \code{FALSE}, cleaned up names are
+returned.}
 
 \item{key}{Your personal key for accessing the Oregon Extended Database.
 Defaults to \code{\link[=db_key]{db_key()}}.}
