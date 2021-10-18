@@ -19,3 +19,33 @@ check_tables <- function(tbl) {
 is_tibble_installed <- function() {
   requireNamespace("tibble", quietly = TRUE)
 }
+
+#' Pulls only the first estimated item difficulty for every item difficulty
+#' listed in the data frame
+#' @param l The full list of converted JSON data - i.,e., the output from 
+#'   [convert_json()]
+#' @keywords internal
+#' @noRd
+get_difficulties <- function(l) {
+  diff_pattern <- "diff\\d\\d$"
+
+  vapply(l, function(x) {
+    difficulties <- x[grepl(diff_pattern, names(x))]
+    suppressWarnings(
+      difficulties <- lapply(difficulties, as.numeric)
+    )
+    difficulties <- difficulties[order(names(difficulties))]
+
+    idx <- seq_along(difficulties)
+    not_missing <- !is.na(difficulties)
+
+    first <- idx[not_missing][1]
+    if (is.na(first)) {
+      return(NA_real_)
+    }
+
+    difficulties[[first]]
+  },
+  FUN.VALUE = double(1)
+  )
+}
