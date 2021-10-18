@@ -5,14 +5,16 @@
 #'   "Exams", "Items", "Preferences", "Schools", "Students", "Students_old",
 #'   "Submissions", "SupplementalDistricts", "SupplementalSchools", "Tasks",
 #'   "User", "UserStudents", or "UserStudents_old".
-#' @param db_names Logical, defaults to \code{FALSE}. Should the original names
+#' @param raw Logical, defaults to \code{FALSE}. Should the original tables
 #'   from the database be returned? If \code{FALSE}, cleaned up names are
-#'   returned.
+#'   returned and, for the \code{"Items"} table, item difficulties are
+#'   returned instead of the full item attributes.
 #' @param key Your personal key for accessing the Oregon Extended Database.
 #'   Defaults to [db_key()].
 #' @export
 #'
-db_get <- function(table, db_names = FALSE, key = db_key()) {
+
+db_get <- function(table, raw = FALSE, key = db_key()) {
   check_tables(table)
   tbl <- paste0(
     "https://orext.brtprojects.org/reportingAPIv1/tableDelimited?tableName=",
@@ -29,7 +31,19 @@ db_get <- function(table, db_names = FALSE, key = db_key()) {
   txt <- rawToChar(out$content)
   txt <- enc2utf8(txt)
 
-  if (nchar(txt) < 1) {
+  if (!raw & table == "Items") {
+    splt <- strsplit(txt, "\n")[[1]]
+    splt <- lapply(splt, function(x) strsplit(x, "\t")[[1]])
+    json <- vapply(splt, "[", 4, FUN.VALUE = character(1))
+
+   out <- data.frame(
+     item_id = vapply(splt, "[", 1, FUN.VALUE = character(1)),
+     standard = vapply(splt, "[", 2, FUN.VALUE = character(1)),
+     brt_item_id = vapply(splt, "[", 3, FUN.VALUE = character(1)),
+     item_difficulty = get_difficulties(convert_json(json))
+    )
+
+  } else if (nchar(txt) < 1) {
     out <- vector("list", length(get_colnames(table)))
     out <- lapply(out, `c`, NA)
     out <- as.data.frame(out, stringsAsFactors = FALSE)
@@ -40,7 +54,7 @@ db_get <- function(table, db_names = FALSE, key = db_key()) {
       header = FALSE
     )
   }
-  names(out) <- get_colnames(table, db_names)
+  names(out) <- get_colnames(table, raw)
 
   # remove rows with full missing data
   full_missing <- apply(out, 1, function(x) sum(is.na(x)) == ncol(out))
@@ -52,8 +66,8 @@ db_get <- function(table, db_names = FALSE, key = db_key()) {
   out
 }
 
-get_colnames <- function(table, db_names = FALSE) {
-  if (!db_names) {
+get_colnames <- function(table, raw = FALSE) {
+  if (!raw) {
     return(swap_colnames(table))
   }
   switch(
@@ -73,7 +87,7 @@ get_colnames <- function(table, db_names = FALSE) {
       "examID", "title", "form", "year"
     ),
     "Items" = c(
-      "itemID", "standard", "brtItemID"
+      "itemID", "standard", "brtItemID", "attrs"
     ),
     "Preferences" = c(
       "userID", "name", "value"
@@ -167,7 +181,7 @@ swap_colnames <- function(table) {
       "exam_id", "title", "form", "year"
     ),
     "Items" = c(
-      "item_id", "standard", "item_id_brt"
+      "item_id", "standard", "item_id_brt", "item_difficulty"
     ),
     "Preferences" = c(
       "user_id", "name", "value"
