@@ -5,6 +5,10 @@
 #'   "Exams", "Items", "Preferences", "Schools", "Students", "Students_old",
 #'   "Submissions", "SupplementalDistricts", "SupplementalSchools", "Tasks",
 #'   "User", "UserStudents", or "UserStudents_old".
+#' @param db A string specifying the database to query. Defaults to 
+#'  \code{NULL}, in which case teh most recent database is queried. These
+#'   names should be specified as in the database, e.g., \code{"ORExt1920"}
+#'   would query the 1920 database.
 #' @param raw Logical, defaults to \code{FALSE}. Should the original tables
 #'   from the database be returned? If \code{FALSE}, cleaned up names are
 #'   returned and, for the \code{"Items"} table, item difficulties are
@@ -14,12 +18,15 @@
 #' @export
 #'
 
-db_get <- function(table, raw = FALSE, key = db_key()) {
+db_get <- function(table, db = NULL, raw = FALSE, key = db_key()) {
   check_tables(table)
   tbl <- paste0(
     "https://orext.brtprojects.org/reportingAPIv1/tableDelimited?tableName=",
     table
   )
+  if (!is.null(db)) {
+    tbl <- paste0(tbl, "&dbName=", db)
+  }
   hdr <- paste0(
     "Authorization: Bearer ",
     key
