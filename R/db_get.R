@@ -20,6 +20,8 @@
 
 db_get <- function(table, db = NULL, raw = FALSE, key = db_key()) {
   check_tables(table)
+  db <- check_db(db)
+
   tbl <- paste0(
     "https://orext.brtprojects.org/reportingAPIv1/tableDelimited?tableName=",
     table
