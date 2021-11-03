@@ -4,7 +4,7 @@
 \alias{db_get}
 \title{Function to query the live OR Extended database and return specific tables}
 \usage{
-db_get(table, raw = FALSE, key = db_key())
+db_get(table, db = NULL, raw = FALSE, key = db_key())
 }
 \arguments{
 \item{table}{A string specifying the specific table from the Oregon Extended
@@ -12,6 +12,11 @@ live database. Should be one of "Accomodations", "Answers", "Districts",
 "Exams", "Items", "Preferences", "Schools", "Students", "Students_old",
 "Submissions", "SupplementalDistricts", "SupplementalSchools", "Tasks",
 "User", "UserStudents", or "UserStudents_old".}
+
+\item{db}{A string specifying the database to query. Defaults to
+\code{NULL}, in which case teh most recent database is queried. These
+names should be specified as in the database, e.g., \code{"ORExt1920"}
+would query the 1920 database.}
 
 \item{raw}{Logical, defaults to \code{FALSE}. Should the original tables
 from the database be returned? If \code{FALSE}, cleaned up names are
