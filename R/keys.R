@@ -49,18 +49,19 @@ db_set_key <- function(key, overwrite = FALSE) {
   token <- paste0('or_ext_api_token = "', key, '"')
 
   # create .Renviron if it doesn't already exist
-  if (!any(grepl("\\.Renviron", system("ls -a $HOME", intern = TRUE)))) {
-    system("touch $HOME/.Renviron")
+  home <- path.expand("~")
+  home_files <- list.files(home, all.files = TRUE)
+
+  if (!any(grepl("\\.Renviron", home_files))) {
+    dir.create(file.path(home, ".Renviron"))
   }
 
-  home <- system("eval echo $HOME", intern = TRUE)
   renviron <- readLines(file.path(home, ".Renviron"))
-
   current_token <- grep("or_ext_api_token", renviron)
+  
   if (length(current_token) > 0) {
     if (overwrite) {
       renviron[current_token] <- token
-
     } else {
       stop("`or_ext_api_token` already exists in .Renviron. ",
            "Run again with `overwrite = TRUE` to overwrite the existing key.",
