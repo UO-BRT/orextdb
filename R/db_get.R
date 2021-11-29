@@ -80,7 +80,7 @@ db_get <- function(table, db = NULL, raw = FALSE, key = db_key()) {
 get_colnames <- function(table, raw = FALSE, db) {
   if (!raw) {
     nms <- swap_colnames(table)
-    if (db == "ORExt1819") {
+    if (db == "ORExt1819" & table == "Students") {
       nms <- nms[1:21]
     }
     return(nms)
@@ -165,7 +165,7 @@ get_colnames <- function(table, raw = FALSE, db) {
       "studentID", "userID", "dateAdded", "comment"
     )
   )
-  if (db == "ORExt1819") {
+  if (db == "ORExt1819" & table == "Students") {
     nms <- nms[1:21]
   }
   nms
