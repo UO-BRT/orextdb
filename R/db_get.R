@@ -5,7 +5,7 @@
 #'   "Exams", "Items", "Preferences", "Schools", "Students", "Students_old",
 #'   "Submissions", "SupplementalDistricts", "SupplementalSchools", "Tasks",
 #'   "User", "UserStudents", or "UserStudents_old".
-#' @param db A string specifying the database to query. Defaults to 
+#' @param db A string specifying the database to query. Defaults to
 #'  \code{NULL}, in which case teh most recent database is queried. These
 #'   names should be specified as in the database, e.g., \code{"ORExt1920"}
 #'   would query the 1920 database.
@@ -69,7 +69,7 @@ db_get <- function(table, db = NULL, raw = FALSE, key = db_key()) {
   full_missing <- apply(out, 1, function(x) sum(is.na(x)) == ncol(out))
   out <- out[!full_missing, ]
 
-  if(is_tibble_installed()) {
+  if (is_tibble_installed()) {
     out <- tibble::as_tibble(out)
   }
   out
