@@ -20,8 +20,8 @@ check_tables <- function(tbl) {
   paste0(lhs, rhs)
 }
 
-#' @keywords internal
-#' @noRd
+#' Checks the database argument and transforms it if needed
+#' @export
 check_db <- function(db) {
   if (is.null(db)) {
     return()
