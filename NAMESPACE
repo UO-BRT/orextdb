@@ -3,7 +3,7 @@
 export(db_get)
 export(db_key)
 export(db_set_key)
+importFrom(RJSONIO,fromJSON)
 importFrom(httr,GET)
 importFrom(httr,add_headers)
-importFrom(jsonlite,fromJSON)
 importFrom(utils,read.delim)
