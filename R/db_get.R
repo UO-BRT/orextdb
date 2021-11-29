@@ -20,15 +20,17 @@
 
 db_get <- function(table, db = NULL, raw = FALSE, key = db_key()) {
   check_tables(table)
+  if (is.null(db)) {
+    year <- as.numeric(gsub("^\\d\\d(\\d\\d).+", "\\1", Sys.Date()))
+    db <- paste0(year - 1, year)
+  }
   db <- check_db(db)
 
   tbl <- paste0(
     "https://orext.brtprojects.org/reportingAPIv1/tableDelimited?tableName=",
     table
   )
-  if (!is.null(db)) {
-    tbl <- paste0(tbl, "&dbName=", db)
-  }
+  tbl <- paste0(tbl, "&dbName=", db)
   hdr <- paste0(
     "Authorization: Bearer ",
     key
@@ -63,7 +65,7 @@ db_get <- function(table, db = NULL, raw = FALSE, key = db_key()) {
       header = FALSE
     )
   }
-  names(out) <- get_colnames(table, raw)
+  names(out) <- get_colnames(table, raw, db)
 
   # remove rows with full missing data
   full_missing <- apply(out, 1, function(x) sum(is.na(x)) == ncol(out))
@@ -75,11 +77,15 @@ db_get <- function(table, db = NULL, raw = FALSE, key = db_key()) {
   out
 }
 
-get_colnames <- function(table, raw = FALSE) {
+get_colnames <- function(table, raw = FALSE, db) {
   if (!raw) {
-    return(swap_colnames(table))
+    nms <- swap_colnames(table)
+    if (db == "ORExt1819") {
+      nms <- nms[1:21]
+    }
+    return(nms)
   }
-  switch(
+  nms <- switch(
     table,
     "Accomodations" = c(
       "submissionID", "accomodation"
@@ -159,6 +165,10 @@ get_colnames <- function(table, raw = FALSE) {
       "studentID", "userID", "dateAdded", "comment"
     )
   )
+  if (db == "ORExt1819") {
+    nms <- nms[1:21]
+  }
+  nms
 }
 
 #' Function to clean up the names of an important table
