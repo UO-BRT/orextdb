@@ -81,12 +81,23 @@ sanitize_json <- function(json) {
   paste0(unlist(out), collapse = '",')
 }
 
-#' Swaps out a pattern between the first/last characters of a string
-#' @param json A list of JSON
+#' Converts a single JSON string
+#' @keywords internal
+#' @noRd
+convert_json_ <- function(json) {
+  tryCatch(
+    fromJSON(json),
+    error = function(e) {
+      fromJSON(sanitize_json(json))
+    }
+  )
+}
+
+#' converts a list of JSON
+#' @param json_l A list of JSON
 #' @return A list of data frames from the JSON data.
 #' @keywords internal
 #' @noRd
-convert_json <- function(json) {
-  l <- lapply(json, sanitize_json)
-  lapply(l, fromJSON)
+convert_json <- function(json_l) {
+  lapply(json_l, convert_json_)
 }
