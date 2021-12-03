@@ -85,6 +85,7 @@ sanitize_json <- function(json) {
 #' @keywords internal
 #' @noRd
 convert_json_ <- function(json) {
+  json <- gsub("\\s\\\"\\s", " ", json)
   tryCatch(
     fromJSON(json),
     error = function(e) {
