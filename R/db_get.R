@@ -83,6 +83,12 @@ get_colnames <- function(table, raw = FALSE, db) {
     if (db == "ORExt1819" & table == "Students") {
       nms <- nms[1:21]
     }
+    if (db == "ORExt1718" & table == "Students") {
+      nms <- nms[c(1:7, 9:14, 18:21)]
+    }
+    if (db == "ORExt1718" & (table == "Submissions" | table == "Answers")) {
+      nms <- nms[-(length(nms) - 1)]
+    }
     return(nms)
   }
   nms <- switch(
@@ -167,6 +173,12 @@ get_colnames <- function(table, raw = FALSE, db) {
   )
   if (db == "ORExt1819" & table == "Students") {
     nms <- nms[1:21]
+  }
+  if (db == "ORExt1718" & table == "Students") {
+    nms <- nms[c(1:7, 9:14, 18:21)]
+  }
+  if (db == "ORExt1718" & table == "Submissions") {
+    nms <- nms[-(length(nms) - 1)]
   }
   nms
 }
