@@ -45,13 +45,12 @@ db_get <- function(table, db = NULL, raw = FALSE, key = db_key()) {
   if (!raw & table == "Items") {
     splt <- strsplit(txt, "\n")[[1]]
     splt <- lapply(splt, function(x) strsplit(x, "\t")[[1]])
-    json <- vapply(splt, "[", 4, FUN.VALUE = character(1))
 
-   out <- data.frame(
-     item_id = vapply(splt, "[", 1, FUN.VALUE = character(1)),
-     standard = vapply(splt, "[", 2, FUN.VALUE = character(1)),
-     brt_item_id = vapply(splt, "[", 3, FUN.VALUE = character(1)),
-     item_difficulty = get_difficulties(convert_json(json))
+    out <- data.frame(
+      item_id = vapply(splt, "[", 1, FUN.VALUE = character(1)),
+      standard = vapply(splt, "[", 2, FUN.VALUE = character(1)),
+      brt_item_id = vapply(splt, "[", 3, FUN.VALUE = character(1)),
+      item_difficulty = vapply(splt, "[", 5, FUN.VALUE = character(1))
     )
 
   } else if (nchar(txt) < 1) {
