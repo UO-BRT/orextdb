@@ -1,3 +1,7 @@
+# Note this entire file is legacy code that is probably not needed anymore
+# I am keeping in case we ever need to pull anything from the JSON data, but
+# it can probably be deleted pretty safely.
+
 #' Cleans up the JSON so it can be read into R. Basically handles quotes a 
 #' little better.
 #' @param json The full JSON to be read in

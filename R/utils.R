@@ -74,6 +74,9 @@ is_tibble_installed <- function() {
 
 #' Pulls only the first estimated item difficulty for every item difficulty
 #' listed in the data frame
+#' 
+#' Note this is legacy code that is probably not needed anymore
+#' 
 #' @param l The full list of converted JSON data - i.,e., the output from 
 #'   [convert_json()]
 #' @keywords internal
