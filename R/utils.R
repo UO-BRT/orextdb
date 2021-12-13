@@ -21,6 +21,7 @@ check_tables <- function(tbl) {
 }
 
 #' Checks the database argument and transforms it if needed
+#' @inheritParams db_get
 #' @export
 check_db <- function(db) {
   if (is.null(db)) {

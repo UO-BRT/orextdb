@@ -6,6 +6,12 @@
 \usage{
 check_db(db)
 }
+\arguments{
+\item{db}{A string specifying the database to query. Defaults to
+\code{NULL}, in which case teh most recent database is queried. These
+names should be specified as in the database, e.g., \code{"ORExt1920"}
+would query the 1920 database.}
+}
 \description{
 Checks the database argument and transforms it if needed
 }
