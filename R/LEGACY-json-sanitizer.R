@@ -59,3 +59,37 @@ wrap_quotes <- function(x) {
 convert_json <- function(json_l) {
   lapply(json_l, function(x) fromJSON(get_json_diffs(x)))
 }
+
+
+#' Pulls only the first estimated item difficulty for every item difficulty
+#' listed in the data frame
+#'
+#' Note this is legacy code that is probably not needed anymore
+#'
+#' @param l The full list of converted JSON data - i.,e., the output from
+#'   [convert_json()]
+#' @keywords internal
+#' @noRd
+get_difficulties <- function(l) {
+  diff_pattern <- "diff\\d\\d$"
+
+  vapply(l, function(x) {
+    difficulties <- x[grepl(diff_pattern, names(x))]
+    suppressWarnings(
+      difficulties <- lapply(difficulties, as.numeric)
+    )
+    difficulties <- difficulties[order(names(difficulties))]
+
+    idx <- seq_along(difficulties)
+    not_missing <- !is.na(difficulties)
+
+    first <- idx[not_missing][1]
+    if (is.na(first)) {
+      return(NA_real_)
+    }
+
+    difficulties[[first]]
+  },
+  FUN.VALUE = double(1)
+  )
+}
