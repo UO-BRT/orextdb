@@ -12,6 +12,7 @@ jobs:
   test-coverage:
     runs-on: ubuntu-latest
     env:
+      API_KEY: ${{ secrets.OR_EXT_API_TOKEN }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
@@ -25,6 +26,12 @@ jobs:
         with:
           extra-packages: covr
 
+      - name: Create and populate .Renviron file
+        run: echo or_ext_api_token = "$API_KEY" >> ~/.Renviron
+        shell: bash
+
       - name: Test coverage
-        run: covr::codecov(); covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")
+        run: |
+          covr::codecov()
+          covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")
         shell: Rscript {0}
