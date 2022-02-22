@@ -25,6 +25,10 @@ jobs:
         with:
           extra-packages: rcmdcheck
 
+      - name: Create and populate .Renviron file
+        run: echo or_ext_api_token = "$API_KEY" >> ~/.Renviron
+        shell: bash
+
       - uses: r-lib/actions/check-r-package@v1
 
       - name: Show testthat output
