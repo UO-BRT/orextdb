@@ -4,3 +4,4 @@ county-mapping/
 ^LICENSE\.md$
 ^README\.Rmd$
 ^\.github$
+^codecov\.yml$
