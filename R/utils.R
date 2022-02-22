@@ -1,8 +1,17 @@
-tbls <- c("Accomodations", "Answers", "Districts", "Exams", "Items",
-          "Preferences", "Schools", "Students", "Students_old",
-          "Submissions", "SupplementalDistricts", "SupplementalSchools",
-          "Tasks", "User", "UserStudents", "UserStudents_old")
+# Internal object storing the names of the database tables, which
+# can be referenced in functions
+tbls <- c(
+  "Accomodations", "Answers", "Districts", "Exams", "Items",
+  "Preferences", "Schools", "Students", "Students_old",
+  "Submissions", "SupplementalDistricts", "SupplementalSchools",
+  "Tasks", "User", "UserStudents", "UserStudents_old"
+)
 
+#' Checks the name of the table
+#'
+#' Returns an error and lists the tables that are acceptable, if a non-expected
+#' table name is supplied.
+#'
 #' @keywords internal
 #' @noRd
 check_tables <- function(tbl) {
@@ -14,6 +23,10 @@ check_tables <- function(tbl) {
   }
 }
 
+#' Paste function
+#'
+#' Infix function to paste long strings together a little easier
+#'
 #' @keywords internal
 #' @noRd
 `%p%` <- function(lhs, rhs) {
@@ -71,37 +84,4 @@ check_db <- function(db) {
 #' @noRd
 is_tibble_installed <- function() {
   requireNamespace("tibble", quietly = TRUE)
-}
-
-#' Pulls only the first estimated item difficulty for every item difficulty
-#' listed in the data frame
-#' 
-#' Note this is legacy code that is probably not needed anymore
-#' 
-#' @param l The full list of converted JSON data - i.,e., the output from 
-#'   [convert_json()]
-#' @keywords internal
-#' @noRd
-get_difficulties <- function(l) {
-  diff_pattern <- "diff\\d\\d$"
-
-  vapply(l, function(x) {
-    difficulties <- x[grepl(diff_pattern, names(x))]
-    suppressWarnings(
-      difficulties <- lapply(difficulties, as.numeric)
-    )
-    difficulties <- difficulties[order(names(difficulties))]
-
-    idx <- seq_along(difficulties)
-    not_missing <- !is.na(difficulties)
-
-    first <- idx[not_missing][1]
-    if (is.na(first)) {
-      return(NA_real_)
-    }
-
-    difficulties[[first]]
-  },
-  FUN.VALUE = double(1)
-  )
 }
