@@ -1,3 +1,36 @@
+# Internal object storing the names of the database tables, which
+# can be referenced in functions
+tbls <- c(
+  "Accomodations", "Answers", "Districts", "Exams", "Items",
+  "Preferences", "Schools", "Students", "Students_old",
+  "Submissions", "SupplementalDistricts", "SupplementalSchools",
+  "Tasks", "User", "UserStudents", "UserStudents_old"
+)
+
+#' Checks the name of the table
+#'
+#' Returns an error and lists the tables that are acceptable, if a non-expected
+#' table name is supplied.
+#'
+#' @keywords internal
+#' @noRd
+check_tables <- function(tbl) {
+  if (!tbl %in% tbls) {
+    stop("The table you requested is not part of the database.\nPlease request ",
+         "one of the following tables:\n",
+         paste0("* ", tbls, "\n"),
+         call. = FALSE)
+  }
+}
+
+# CHRIS FIX
+# This function won't always work - need to know if it's at start or end of year
+# e.g., at the start of next year we would want to add one to the year, not
+# subtract one (use the month for a cutoff)
+
+# Actually - check in with Evan for new functionality in the API that will list
+# all the dbs, then just take the most recent one.
+
 #' Used in case the db is not passed to a function
 #' Determines the current db based on the system date
 #' Creates a string with the name of the db
@@ -8,8 +41,56 @@ current_db <- function() {
   paste0("ORExt", paste0(year - 1, year))
 }
 
+#' Checks the database argument and transforms it if needed
+#' @inheritParams db_get
+#' @export
+check_db <- function(db) {
+  if (is.null(db)) {
+    return()
+  }
+  if (grepl("^\\d", db)) {
+    if (nchar(db) != 4) {
+      stop(
+        "`db` argument must specify a 4-digit year, with the first two " %p%
+          "digits representing the start of the school year, and the" %p%
+          "last two digits representing the end of the school year. `db` may" %p%
+          "be passed with or without the `\"ORExt\"` prefix, e.g., `\"1920\"` " %p%
+          "or `\"ORExt1920\"`.",
+        call. = FALSE
+      )
+    }
+    db <- paste0("ORExt", db)
+  }
+  if (!grepl("^ORExt\\d\\d\\d\\d$", db)) {
+    stop(
+      "`db` argument must specify a 4-digit year, with the first two " %p%
+        "digits representing the start of the school year, and the" %p%
+        "last two digits representing the end of the school year. `db` may" %p%
+        "be passed with or without the `\"ORExt\"` prefix, e.g., `\"1920\"` " %p%
+        "or `\"ORExt1920\"`.",
+      call. = FALSE
+    )
+  }
+  year <- gsub("ORExt", "", db)
+  y1 <- as.numeric(substr(year, 1, 2))
+  y2 <- as.numeric(substr(year, 3, 4))
+
+  if (y2 - y1 != 1) {
+    stop(
+      "`db` argument must specify a 4-digit year, with the first two " %p%
+        "digits representing the start of the school year, and the" %p%
+        "last two digits representing the end of the school year. `db` may" %p%
+        "be passed with or without the `\"ORExt\"` prefix, e.g., `\"1920\"` " %p%
+        "or `\"ORExt1920\"`.",
+      call. = FALSE
+    )
+  }
+  db
+}
+
+
 #' Returns the raw data from the api
-#' 
+#'
 #' The raw data is returned as a single string. It then needs to be passed
 #' to \code{\link{parse_txt_data}} or \code{\link{create_item_table}} (if
 #' item data are being returned).
@@ -87,16 +168,16 @@ rm_rows_full_miss <- function(d) {
   d[!full_missing, ]
 }
 
-#' Retruns the column names for a given function
-#' 
+#' Returns the column names for a given table
+#'
 #' This is a weird function and one that is likely to need updating over time.
 #' As you can see below, the names depend on the year, because the tables don't
 #' always have the same columns in each year. I had already written the main
 #' function when I realized this so the rest of it is kind of hacked together
 #' from that.You might want to consider redoing this so it calls separate
-#' functions depending on the year, but there is a lot of overlap. Also new 
+#' functions depending on the year, but there is a lot of overlap. Also new
 #' tables are likely to be added to the database that might be relevant.
-#' 
+#'
 #' @inheritParams db_get
 #' @noRd
 #' @keywords internal
@@ -205,10 +286,10 @@ get_colnames <- function(table, raw, db) {
   nms
 }
 
-#' Retruns the column names for a given function
+#' Returns the column names for a given function
 #'
 #' This is just like \code{\link{get_colnames}} except it returns the raw
-#' names as they are in the database, rather than cleaning them up a bit 
+#' names as they are in the database, rather than cleaning them up a bit
 #' (e.g., moving from camelCase to snake_case).
 #'
 #' @return A character vector of the new cleaned up names
