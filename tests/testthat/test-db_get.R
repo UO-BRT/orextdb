@@ -9,6 +9,6 @@ test_that("Item table has four columns", {
 })
 
 test_that("Some item will be field test", {
-  # field test items should have a missing item_difficultuy value
+  # field test items should have a missing item_difficulty value
   expect_equal(any(is.na(i$item_difficulty)), TRUE)
 })
