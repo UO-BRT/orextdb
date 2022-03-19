@@ -14,6 +14,7 @@ tbls <- c(
 #'
 #' @keywords internal
 #' @noRd
+#' @inheritParams db_get
 check_tables <- function(tbl) {
   if (!tbl %in% tbls) {
     stop("The table you requested is not part of the database.\nPlease request ",
@@ -93,6 +94,7 @@ check_db <- function(db) {
 #' @inheritParams db_get
 #' @noRd
 #' @keywords internal
+
 get_raw_data <- function(table, db, key) {
   tbl <- paste0(
     "https://orext.brtprojects.org/reportingAPIv1/tableDelimited?tableName=",
@@ -141,12 +143,13 @@ parse_txt_data <- function(txt) {
 
 #' Returns an empty data frame w/correct column names
 #'
-#' Occassionally there is no data. This function helps handle that by returning
+#' Occasionally there is no data. This function helps handle that by returning
 #' an empty data frame with the correct column names for the given table.
 #'
 #' @inheritParams db_get
 #' @noRd
 #' @keywords internal
+
 create_empty_frame <- function(table, db) {
   out <- vector("list", length(get_colnames(table, db = db)))
   out <- lapply(out, `c`, NA)
@@ -170,13 +173,14 @@ rm_rows_full_miss <- function(d) {
 #' As you can see below, the names depend on the year, because the tables don't
 #' always have the same columns in each year. I had already written the main
 #' function when I realized this so the rest of it is kind of hacked together
-#' from that.You might want to consider redoing this so it calls separate
+#' from that. You might want to consider redoing this so it calls separate
 #' functions depending on the year, but there is a lot of overlap. Also new
 #' tables are likely to be added to the database that might be relevant.
 #'
 #' @inheritParams db_get
 #' @noRd
 #' @keywords internal
+
 get_colnames <- function(table, raw, db) {
   if (!raw) {
     nms <- swap_colnames(table)
@@ -291,6 +295,7 @@ get_colnames <- function(table, raw, db) {
 #' @return A character vector of the new cleaned up names
 #' @noRd
 #' @keywords internal
+#' @inheritParams db_get
 
 swap_colnames <- function(table) {
   switch(table,

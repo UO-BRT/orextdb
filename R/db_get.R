@@ -18,7 +18,8 @@
 #'   Defaults to [db_key()].
 #' @export
 
-db_get <- function(table, db = NULL, raw = FALSE, key = db_key()) {
+db_get <-
+  function(table, db = NULL, raw = FALSE, key = db_key()) {
   check_tables(table)
 
   if (is.null(db)) {
