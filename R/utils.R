@@ -1,12 +1,15 @@
-#' Paste function
-#'
+#' internal paste function
+#' Note: created by DA and not currently used
 #' Infix function to paste long strings together a little easier
 #'
 #' @keywords internal
 #' @noRd
+#' @param lhs = character vector to paste on left
+#' @param rhs = character vector to paste on right
 `%p%` <- function(lhs, rhs) {
   paste0(lhs, rhs)
 }
+
 #' internal tests - determining if tibble is installed
 #'
 #'
@@ -16,17 +19,19 @@ is_tibble_installed <- function() {
   requireNamespace("tibble", quietly = TRUE)
 }
 
-#' output information about db_formating as message/stop
+#' explain how to format the database specification when misspecified
 #'
-#' type = string to specify either c('message', 'stop')
-
 #' @keywords internal
 #' @noRd
+#' @param type = character vector indicating either c('message', 'stop')
+#' which passes to respective functions
+#' @param reason = character vector indicating the way they misspecified
+#'  (changes Note 1 of 2)
 
 explain_db_format <-
   function(type, reason){
     general_message <-
-        paste("NOTE 2: `db` argument must specify a 4-digit year, with the first two " ,
+        paste("\nNOTE 2: `db` argument must specify a 4-digit year, with the first two " ,
         "digits representing the start of the school year, and the " ,
         "last two digits representing the end of the school year. `db` may ",
         "be passed with or without the `\"ORExt\"` prefix, e.g., `\"1920\"` " ,
