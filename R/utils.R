@@ -7,9 +7,64 @@
 `%p%` <- function(lhs, rhs) {
   paste0(lhs, rhs)
 }
-
+#' internal tests - determining if tibble is installed
+#'
+#'
 #' @keywords internal
 #' @noRd
 is_tibble_installed <- function() {
   requireNamespace("tibble", quietly = TRUE)
 }
+
+#' output information about db_formating as message/stop
+#'
+#' type = string to specify either c('message', 'stop')
+
+#' @keywords internal
+#' @noRd
+
+explain_db_format <-
+  function(type, reason){
+    general_message <-
+        paste("NOTE 2: `db` argument must specify a 4-digit year, with the first two " ,
+        "digits representing the start of the school year, and the " ,
+        "last two digits representing the end of the school year. `db` may ",
+        "be passed with or without the `\"ORExt\"` prefix, e.g., `\"1920\"` " ,
+        "or `\"ORExt1920\"`.", sep = '\n')
+
+    if (reason == 'incorrect_num_digits') {
+      specific_message <- 'NOTE 1: User specified incorrect number of digits '
+    }
+
+    if (reason == 'digits_only') {
+      specific_message <- 'NOTE 1: User only provided digits '
+    }
+    if (reason == 'incorrect_format') {
+      specific_message <- 'NOTE 1: User format is incorrect '
+    }
+    if (reason == 'invalid_years') {
+      specific_message <- 'NOTE 1: User specified invalid combination of years '
+    }
+
+
+
+    written_message <-
+      paste(
+        specific_message,
+        general_message,
+        sep = '\n'
+      )
+
+    if (type == 'stop'){
+      stop(
+        written_message,
+        call. = FALSE
+      )
+      }
+
+    if (type == 'message'){
+      message(
+        written_message
+      )
+    }
+    }
