@@ -24,11 +24,8 @@ check_tables <- function(tbl) {
 }
 
 # CHRIS FIX
-# This function won't always work - need to know if it's at start or end of year
-# e.g., at the start of next year we would want to add one to the year, not
-# subtract one (use the month for a cutoff)
 
-# Actually - check in with Evan for new functionality in the API that will list
+# Talk to Evan for new functionality in the API that will list
 # all the dbs, then just take the most recent one.
 
 #' Used in case the db is not passed to a function
@@ -37,8 +34,17 @@ check_tables <- function(tbl) {
 #' @noRd
 #' @keywords internal
 current_db <- function() {
-  year <- as.numeric(gsub("^\\d\\d(\\d\\d).+", "\\1", Sys.Date()))
-  paste0("ORExt", paste0(year - 1, year))
+  current_month <- as.numeric(format(Sys.Date(),"%m"))
+  current_year <- as.numeric(format(Sys.Date(),"%y"))
+
+  if (current_month < 9) {
+    paste0("ORExt", paste0(current_year - 1, current_year))
+  }
+
+  else {
+    paste0("ORExt", paste0(current_year, current_year + 1))
+  }
+
 }
 
 #' Checks the database argument and transforms it if needed
