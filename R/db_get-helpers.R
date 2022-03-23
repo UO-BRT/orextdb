@@ -7,14 +7,16 @@ tbls <- c(
   "Tasks", "User", "UserStudents", "UserStudents_old"
 )
 
-#' Checks the name of the table
+#' Function to check table name
 #'
-#' Returns an error and lists the tables that are acceptable, if a non-expected
-#' table name is supplied.
+#' Stops R, returns an error, and lists available tables, if an invalid
+#' table name is specified.
 #'
 #' @keywords internal
 #' @noRd
 #' @inheritParams db_get
+#' @return Warning or nothing
+#'
 check_tables <- function(tbl) {
   if (!tbl %in% tbls) {
     stop("The table you requested is not part of the database.\nPlease request ",
@@ -24,16 +26,17 @@ check_tables <- function(tbl) {
   }
 }
 
-# CHRIS FIX
+# TALK TO EVAN ABOUT NEW FUNCTIONALITY
+# WITH API TO LIST AVAILABLE DATABASES.
+# THEN JUST TAKE THE NEWEST
 
-# Talk to Evan for new functionality in the API that will list
-# all the dbs, then just take the most recent one.
 
-#' Used in case the db is not passed to a function
 #' Determines the current db based on the system date
 #' Creates a string with the name of the db
+#'
 #' @noRd
 #' @keywords internal
+#' @return Character vector — the most recent database name.
 current_db <- function() {
   current_month <- as.numeric(format(Sys.Date(),"%m"))
   current_year <- as.numeric(format(Sys.Date(),"%y"))
@@ -48,7 +51,11 @@ current_db <- function() {
 
 }
 
-#' Checks the database argument and transforms it if needed
+#' Check user-specified database name and transforms it (if needed).
+#' If the user improperly specified a database,
+#' a message tells them how to fix it.
+#'
+#' @return Character vector — correctly formatted database name.
 #' @inheritParams db_get
 #' @export
 check_db <- function(db) {
@@ -86,14 +93,16 @@ check_db <- function(db) {
 }
 
 
-#' Returns the raw data from the api
+#' Return the raw data from the api
 #'
 #' The raw data is returned as a single string. It then needs to be passed
 #' to \code{\link{parse_txt_data}} or \code{\link{create_item_table}} (if
 #' item data are being returned).
+#'
 #' @inheritParams db_get
 #' @noRd
 #' @keywords internal
+#' @return Character vector — the raw data from the API
 
 get_raw_data <- function(table, db, key) {
   tbl <- paste0(
@@ -113,10 +122,12 @@ get_raw_data <- function(table, db, key) {
   enc2utf8(txt)
 }
 
-#' Parses the raw text data for items
+#' Convert text to data frame for items
+#'
 #' @param txt The raw text data returned from \code{\link{get_raw_data}}
 #' @noRd
 #' @keywords internal
+#' @return data.frame - 4 columns: item_id, standard, brt_item_id, and item_difficulty.
 create_item_table <- function(txt) {
   splt <- strsplit(txt, "\n")[[1]]
   splt <- lapply(splt, function(x) strsplit(x, "\t")[[1]])
@@ -129,10 +140,11 @@ create_item_table <- function(txt) {
   )
 }
 
-#' Parses the raw text data for all tables except items
+#' Parse raw text data for all tables, except items
 #' @param txt The raw text data returned from \code{\link{get_raw_data}}
 #' @noRd
 #' @keywords internal
+#' @return data.frame - conversion of raw text data from API
 parse_txt_data <- function(txt) {
   read.delim(
     text = txt,
@@ -141,14 +153,16 @@ parse_txt_data <- function(txt) {
   )
 }
 
-#' Returns an empty data frame w/correct column names
+#' Create empty data frame with correct column names.
 #'
-#' Occasionally there is no data. This function helps handle that by returning
-#' an empty data frame with the correct column names for the given table.
+#' This function helps handle situations with no
+#' data by returning an empty data frame with the
+#' correct column names for the user-specified table.
 #'
 #' @inheritParams db_get
 #' @noRd
 #' @keywords internal
+#' @return data.frame - contains column names that would be present for user-requested table
 
 create_empty_frame <- function(table, db) {
   out <- vector("list", length(get_colnames(table, db = db)))
@@ -156,69 +170,48 @@ create_empty_frame <- function(table, db) {
   as.data.frame(out, stringsAsFactors = FALSE)
 }
 
-#' Removes fully missing rows
-#' Any row in the data frame that is missing on all columns is removed
+#' Remove empty rows (i.e., those which are fully missing)
+#' Any row in the data frame that is missing on all variables is removed
+#'
 #' @param d The data frame, typically the output from
 #'   \code{\link{parse_txt_data}} or \code{\link{create_item_table}}
 #' @noRd
 #' @keywords internal
-rm_rows_full_miss <- function(d) {
+rm_empty_rows <- function(d) {
   full_missing <- apply(d, 1, function(x) sum(is.na(x)) == ncol(d))
   d[!full_missing, ]
 }
 
-#' Returns the column names for a given table
-#'
-#' This is a weird function and one that is likely to need updating over time.
-#' As you can see below, the names depend on the year, because the tables don't
-#' always have the same columns in each year. I had already written the main
-#' function when I realized this so the rest of it is kind of hacked together
-#' from that. You might want to consider redoing this so it calls separate
-#' functions depending on the year, but there is a lot of overlap. Also new
-#' tables are likely to be added to the database that might be relevant.
-#'
-#' @inheritParams db_get
+
+#' Return the names in camelCase
+#' @return A character vector of the new cleaned up names
 #' @noRd
 #' @keywords internal
+#' @inheritParams db_get
 
-get_colnames <- function(table, raw, db) {
-  if (!raw) {
-    nms <- swap_colnames(table)
-    if (db == "ORExt1819" & table == "Students") {
-      nms <- nms[1:21]
-    }
-    if (db == "ORExt1718" & table == "Students") {
-      nms <- nms[c(1:7, 9:14, 18:21)]
-    }
-    if (db == "ORExt1718" & (table == "Submissions" | table == "Answers")) {
-      nms <- nms[-(length(nms) - 1)]
-    }
-    return(nms)
-  }
-  nms <- switch(table,
-    "Accomodations" = c(
-      "submissionID", "accomodation"
-    ),
-    "Answers" = c(
-      "answerID", "taskID", "questionID", "score", "duration",
-      "answerDate", "answer", "itemID", "positions", "isPractice",
-      "isCorrect", "isFinal", "imageName"
-    ),
-    "Districts" = c(
-      "districtID", "name"
-    ),
+return_camelCase_names <-
+  function(table){
+
+  switch(
+    table,
+    "Accomodations" = c("submissionID", "accomodation"),
+    "Answers" =
+      c("answerID", "taskID", "questionID", "score", "duration",
+        "answerDate", "answer", "itemID", "positions", "isPractice",
+        "isCorrect", "isFinal", "imageName"),
+    "Districts" = c("districtID", "name"),
     "Exams" = c(
       "examID", "title", "form", "year"
-    ),
+      ),
     "Items" = c(
       "itemID", "standard", "brtItemID", "attrs"
-    ),
+      ),
     "Preferences" = c(
       "userID", "name", "value"
-    ),
+      ),
     "Schools" = c(
       "districtID", "schoolID", "name"
-    ),
+      ),
     "Students" = c(
       "studentID", "userID", "fname", "mname", "lname", "nickname",
       "gender", "birthDate", "grade", "SSID", "newSSID", "endDt",
@@ -273,7 +266,41 @@ get_colnames <- function(table, raw, db) {
     "UserStudents_old" = c(
       "studentID", "userID", "dateAdded", "comment"
     )
-  )
+)
+  }
+
+
+#' Returns the column names for a given table
+#'
+#' This is a weird function and one that is likely to need updating over time.
+#' As you can see below, the names depend on the year, because the tables don't
+#' always have the same columns in each year. I had already written the main
+#' function when I realized this so the rest of it is kind of hacked together
+#' from that. You might want to consider redoing this so it calls separate
+#' functions depending on the year, but there is a lot of overlap. Also new
+#' tables are likely to be added to the database that might be relevant.
+#'
+#' @inheritParams db_get
+#' @noRd
+#' @keywords internal
+#' @return Character vector - formatted column names in table
+
+get_colnames <- function(table, raw, db) {
+  if (!raw) {
+    nms <- return_snake_case_names(table)
+    if (db == "ORExt1819" & table == "Students") {
+      nms <- nms[1:21]
+    }
+    if (db == "ORExt1718" & table == "Students") {
+      nms <- nms[c(1:7, 9:14, 18:21)]
+    }
+    if (db == "ORExt1718" & (table == "Submissions" | table == "Answers")) {
+      nms <- nms[-(length(nms) - 1)]
+    }
+    return(nms)
+  }
+  nms <- return_camelCase_names(table)
+
   if (db == "ORExt1819" & table == "Students") {
     nms <- nms[1:21]
   }
@@ -286,18 +313,14 @@ get_colnames <- function(table, raw, db) {
   nms
 }
 
-#' Returns the column names for a given function
+#' Returns the column names for a given table in snake_case
 #'
-#' This is just like \code{\link{get_colnames}} except it returns the raw
-#' names as they are in the database, rather than cleaning them up a bit
-#' (e.g., moving from camelCase to snake_case).
-#'
-#' @return A character vector of the new cleaned up names
+#' @return Character vector - formatted column names in table
 #' @noRd
 #' @keywords internal
 #' @inheritParams db_get
 
-swap_colnames <- function(table) {
+return_snake_case_names <- function(table) {
   switch(table,
     "Accomodations" = c(
       "submission_id", "accomodation"
@@ -335,7 +358,7 @@ swap_colnames <- function(table) {
       "tag_intel_gifted", "tag_reading", "tag_math", "tag_creative",
       "tag_leadership", "tag_perform_arts", "transition_prgm", "alted_flg",
       "amerind_tribal_mem", "amerind_tribal_enroll", "ethnic_cd"
-    ),
+      ),
     "Students_old" = c(
       "student_id", "user_id", "fname", "mname", "lname", "nickname",
       "gender", "birth_date", "grade", "ssid", "new_ssid", "end_date",

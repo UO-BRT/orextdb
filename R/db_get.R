@@ -36,7 +36,7 @@ db_get <-
     out <- parse_txt_data(txt_data)
   }
   names(out) <- get_colnames(table, raw, db)
-  out <- rm_rows_full_miss(out)
+  out <- rm_empty_rows(out)
 
   if (is_tibble_installed()) {
     out <- tibble::as_tibble(out)
