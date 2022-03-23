@@ -34,7 +34,7 @@ check_tables <- function(tbl) {
 #' Determines the current db based on the system date
 #' Creates a string with the name of the db
 #'
-#' @noRd
+#' @export
 #' @return Character vector — the most recent database name.
 current_db <- function() {
   current_month <- as.numeric(format(Sys.Date(),"%m"))
