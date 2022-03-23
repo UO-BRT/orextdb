@@ -3,7 +3,8 @@
 \name{check_db}
 \alias{check_db}
 \title{Check user-specified database name and transforms it (if needed).
-If the user improperly specified a database, a message tells them how to fix it.}
+If the user improperly specified a database,
+a message tells them how to fix it.}
 \usage{
 check_db(db)
 }
@@ -19,5 +20,6 @@ Character vector — correctly formatted database name.
 }
 \description{
 Check user-specified database name and transforms it (if needed).
-If the user improperly specified a database, a message tells them how to fix it.
+If the user improperly specified a database,
+a message tells them how to fix it.
 }

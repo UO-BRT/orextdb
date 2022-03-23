@@ -2,3 +2,5 @@
 county-mapping/
 .DS_Store
 .Rhistory
+inst/doc
+vignettes

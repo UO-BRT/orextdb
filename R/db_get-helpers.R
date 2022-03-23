@@ -35,7 +35,6 @@ check_tables <- function(tbl) {
 #' Creates a string with the name of the db
 #'
 #' @noRd
-#' @keywords internal
 #' @return Character vector — the most recent database name.
 current_db <- function() {
   current_month <- as.numeric(format(Sys.Date(),"%m"))
@@ -58,6 +57,7 @@ current_db <- function() {
 #' @return Character vector — correctly formatted database name.
 #' @inheritParams db_get
 #' @export
+
 check_db <- function(db) {
   if (is.null(db)) {
     return()
