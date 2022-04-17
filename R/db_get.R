@@ -18,7 +18,8 @@
 #'   Defaults to [db_key()].
 #' @export
 
-db_get <- function(table, db = NULL, raw = FALSE, key = db_key()) {
+db_get <-
+  function(table, db = NULL, raw = FALSE, key = db_key()) {
   check_tables(table)
 
   if (is.null(db)) {
@@ -35,7 +36,7 @@ db_get <- function(table, db = NULL, raw = FALSE, key = db_key()) {
     out <- parse_txt_data(txt_data)
   }
   names(out) <- get_colnames(table, raw, db)
-  out <- rm_rows_full_miss(out)
+  out <- rm_empty_rows(out)
 
   if (is_tibble_installed()) {
     out <- tibble::as_tibble(out)

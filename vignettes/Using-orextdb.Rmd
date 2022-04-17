@@ -1,0 +1,86 @@
+---
+title: "Using-orextdb"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using-orextdb}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## ADD EXPLANATION ABOUT `DB_KEY()` 
+
+SET KEY FIRST
+
+The `{orextdb}` package interfaces with the Oregon Extended Assessment (ORExt) API which pulls from the live ORExt database to simplify access to the data. This package is primarily used in conjunction with `{dbprocess}` & `{exirt}`. This vignette explains the main functions in `{orext}` to help someone building out the aforementioned packages, or directly pulling data for another reason.  
+
+# Load the library
+
+As with any package, we need to load the library. If you do not have the package installed, you can use `remotes::install_github('UO-BRT/orextdb')` before this step, assuming you have access to the repository. 
+
+```{r setup}
+#remotes::install_github('UO-BRT/orextdb', ref = 'refactoring_march_19_branch')
+library(orextdb)
+```
+
+# Check current data base
+
+We can see the current database and the general formatting of database names with this call. 
+
+```{r}
+current_db()
+```
+
+## internal workings of `current_db()`
+
+This function is used internally if the user does not specify a specific database, so this is the database the package assumes if unspecified. The current database switches from [current year - 1, current year] to [current year, year + 1] after September 1st. For example: calling `current_db()` on August 31, 2022 returns `ORExt2122`, and calling it on September 1, 2022 returns `ORExt2223`. With additional functionality in the API, new functions will be added to list all available databases.
+
+## check formatting of database name
+
+As you can see, databases are formatted with the prefix `ORExt` followed by the academic year. Academic year is specified as the last two digits of each year in the academic year (e.g., 2018-2019 = `1819`, 2019-2020 = `1920`, etc.). Hence, the database for the 2018-2019 OR Extended Assessment is `ORExt1819`. If you are not sure if you've specified this correctly, you can check with `check_db()`. This function will also give you a message about how to fix your code, if you formatted this incorrectly.
+
+```{r}
+check_db('1819')
+```
+
+# Retreive table from database
+
+Retreiving a given table from the database is simple. Calling `db_get()`, we can access any of the following tables with the `table` argument:
+
+* Accomodations
+* Answers
+* Districts
+* Exams
+* Items
+* Preferences
+* Schools
+* Students
+* Students_old
+* Submissions
+* SupplementalDistricts
+* SupplementalSchools
+* Tasks
+* User
+* UserStudents
+* UserStudents_old
+
+The `table` argument is required and cannot be left blank. If you do not specify the database (i.e., `db` in `db_get()`) it defaults to the output of `db_current()`. 
+
+This is how you can access the Items table for the 2018-2019 academic year, for example:
+
+```{r}
+db_get(table = 'Items')
+```
+
+If we wanted to access the ids for various schools, we could do that with the same function, but modifying `table`. Column names default to `snake_case`. If you prefer `camelCase` names, you can access these with `raw = TRUE`, indicating you want the unformatted (i.e., raw) column names.
+
+```{r}
+db_get(table = 'Schools', db = 'ORExt2021', raw = TRUE)
+```
+

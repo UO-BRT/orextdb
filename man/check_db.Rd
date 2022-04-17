@@ -2,7 +2,9 @@
 % Please edit documentation in R/db_get-helpers.R
 \name{check_db}
 \alias{check_db}
-\title{Checks the database argument and transforms it if needed}
+\title{Check user-specified database name and transforms it (if needed).
+If the user improperly specified a database,
+a message tells them how to fix it.}
 \usage{
 check_db(db)
 }
@@ -13,6 +15,11 @@ names should be specified either as a four digit year (e.g., 1718) or as
 in the database, e.g., \code{"ORExt1718"}
 would query the 1718 database.}
 }
+\value{
+Character vector — correctly formatted database name.
+}
 \description{
-Checks the database argument and transforms it if needed
+Check user-specified database name and transforms it (if needed).
+If the user improperly specified a database,
+a message tells them how to fix it.
 }
