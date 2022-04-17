@@ -65,7 +65,7 @@ check_db <- function(db) {
 
   is_digits_only <- grepl("^\\d", db)
 
-  is_four_digits <- nchar(db) == 4
+  is_four_digits <- grepl("^\\d{4}", db)
 
   if (is_digits_only) {
     if (!is_four_digits) {

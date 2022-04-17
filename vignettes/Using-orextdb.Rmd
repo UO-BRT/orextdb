@@ -14,7 +14,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-The `{orextdb}` package interfaces with the Oregon Extended Assessment (ORExt) database to simplify access to the data. This package is primarily used in conjunction with `{dbprocess}` & `{exirt}`. This vignette explains the main functions in `{orext}` to help someone building out the aforementioned packages, or directly pulling data for another reason.  
+## ADD EXPLANATION ABOUT `DB_KEY()` 
+
+SET KEY FIRST
+
+The `{orextdb}` package interfaces with the Oregon Extended Assessment (ORExt) API which pulls from the live ORExt database to simplify access to the data. This package is primarily used in conjunction with `{dbprocess}` & `{exirt}`. This vignette explains the main functions in `{orext}` to help someone building out the aforementioned packages, or directly pulling data for another reason.  
 
 # Load the library
 
@@ -47,7 +51,7 @@ check_db('1819')
 
 # Retreive table from database
 
-Retreivinga given table from the database is simple. Calling `db_get()`, we can access any of the following tables with the `table` argument:
+Retreiving a given table from the database is simple. Calling `db_get()`, we can access any of the following tables with the `table` argument:
 
 * Accomodations
 * Answers
@@ -66,17 +70,17 @@ Retreivinga given table from the database is simple. Calling `db_get()`, we can 
 * UserStudents
 * UserStudents_old
 
-The `table` argument is required and cannot be left blank. If you do not specify the database (i.e., `db` in `db_get()`) it defaults to the output of `db_current()`. Column names default to `snake_case`. If you prefer `camelCase` names, you can access these with `raw = TRUE`, indicating you want the unformatted (i.e., raw) column names.
+The `table` argument is required and cannot be left blank. If you do not specify the database (i.e., `db` in `db_get()`) it defaults to the output of `db_current()`. 
 
 This is how you can access the Items table for the 2018-2019 academic year, for example:
 
 ```{r}
-db_get(table = 'Items', db = 'ORExt1819', raw = FALSE)
+db_get(table = 'Items')
 ```
 
-If we wanted to access the ids for various schools, we could do that with the same function, but modifying `table`.
+If we wanted to access the ids for various schools, we could do that with the same function, but modifying `table`. Column names default to `snake_case`. If you prefer `camelCase` names, you can access these with `raw = TRUE`, indicating you want the unformatted (i.e., raw) column names.
 
 ```{r}
-db_get(table = 'Schools', db = 'ORExt2021', raw = FALSE)
+db_get(table = 'Schools', db = 'ORExt2021', raw = TRUE)
 ```
 
