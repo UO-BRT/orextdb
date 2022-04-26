@@ -8,7 +8,7 @@ db_get(table, db = NULL, raw = FALSE, key = db_key())
 }
 \arguments{
 \item{table}{A string specifying the specific table from the Oregon Extended
-live database. Should be one of "Accomodations", "Answers", "Districts",
+live database. Should be one of "Accommodations", "Answers", "Districts",
 "Exams", "Items", "Preferences", "Schools", "Students", "Students_old",
 "Submissions", "SupplementalDistricts", "SupplementalSchools", "Tasks",
 "User", "UserStudents", or "UserStudents_old".}
@@ -27,6 +27,16 @@ returned instead of the full item attributes.}
 \item{key}{Your personal key for accessing the Oregon Extended Database.
 Defaults to \code{\link[=db_key]{db_key()}}.}
 }
+\value{
+tibble (if installed) or data.frame of requested table
+}
 \description{
 Function to query the live OR Extended database and return specific tables
+}
+\examples{
+library(orextdb)
+
+\dontrun{
+db_get(table = 'Schools', db = 'ORExt2021')
+}
 }

@@ -6,7 +6,7 @@
 If the user improperly specified a database,
 a message tells them how to fix it.}
 \usage{
-check_db(db)
+check_db(db, verbose = FALSE)
 }
 \arguments{
 \item{db}{A string specifying the database to query. Defaults to
@@ -14,6 +14,8 @@ check_db(db)
 names should be specified either as a four digit year (e.g., 1718) or as
 in the database, e.g., \code{"ORExt1718"}
 would query the 1718 database.}
+
+\item{verbose}{Do you want the format explained when acceptable, but non-exact matching strings, are used?}
 }
 \value{
 Character vector — correctly formatted database name.
@@ -22,4 +24,10 @@ Character vector — correctly formatted database name.
 Check user-specified database name and transforms it (if needed).
 If the user improperly specified a database,
 a message tells them how to fix it.
+}
+\examples{
+library(orextdb)
+\dontrun{
+check_db(db = current_db())
+}
 }

@@ -17,6 +17,13 @@
 #' @param key Your personal key for accessing the Oregon Extended Database.
 #'   Defaults to [db_key()].
 #' @export
+#' @examples
+#' library(orextdb)
+#'
+#' \dontrun{
+#' db_get(table = 'Schools', db = 'ORExt2021')
+#' }
+#' @return tibble (if installed) or data.frame of requested table
 
 db_get <-
   function(table, db = NULL, raw = FALSE, key = db_key()) {

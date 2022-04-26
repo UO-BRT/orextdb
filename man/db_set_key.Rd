@@ -12,6 +12,9 @@ db_set_key(key, overwrite = FALSE)
 \item{overwrite}{Defaults to \code{FALSE}. If there is a key already in the
 .Renviron, should it be overwritten?}
 }
+\value{
+A message or warning
+}
 \description{
 This function adds your key to your .Renviron so it is accessible by
 \code{\link[=db_key]{db_key()}}. You should only need to run this function once. Make sure to

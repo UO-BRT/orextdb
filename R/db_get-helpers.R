@@ -13,7 +13,6 @@ tbls <- c(
 #' table name is specified.
 #'
 #' @keywords internal
-#' @noRd
 #' @inheritParams db_get
 #' @return Warning or nothing
 #'
@@ -36,6 +35,11 @@ check_tables <- function(tbl) {
 #'
 #' @export
 #' @return Character vector — the most recent database name.
+#' @examples
+#' library(orextdb)
+#' \dontrun{
+#' current_db()
+#' }
 current_db <- function() {
   current_month <- as.numeric(format(Sys.Date(),"%m"))
   current_year <- as.numeric(format(Sys.Date(),"%y"))
@@ -58,6 +62,11 @@ current_db <- function() {
 #' @inheritParams db_get
 #' @param verbose Do you want the format explained when acceptable, but non-exact matching strings, are used?
 #' @export
+#' @examples
+#' library(orextdb)
+#' \dontrun{
+#' check_db(db = current_db())
+#' }
 
 check_db <- function(db, verbose = FALSE) {
   if (is.null(db)) {
@@ -126,7 +135,6 @@ get_raw_data <- function(table, db, key) {
 #' Convert text to data frame for items
 #'
 #' @param txt The raw text data returned from \code{\link{get_raw_data}}
-#' @noRd
 #' @keywords internal
 #' @return data.frame - 4 columns: item_id, standard, brt_item_id, and item_difficulty.
 create_item_table <- function(txt) {
@@ -143,7 +151,6 @@ create_item_table <- function(txt) {
 
 #' Parse raw text data for all tables, except items
 #' @param txt The raw text data returned from \code{\link{get_raw_data}}
-#' @noRd
 #' @keywords internal
 #' @return data.frame - conversion of raw text data from API
 parse_txt_data <- function(txt) {
@@ -161,7 +168,6 @@ parse_txt_data <- function(txt) {
 #' correct column names for the user-specified table.
 #'
 #' @inheritParams db_get
-#' @noRd
 #' @keywords internal
 #' @return data.frame - contains column names that would be present for user-requested table
 
@@ -186,7 +192,6 @@ rm_empty_rows <- function(d) {
 
 #' Return the names in camelCase
 #' @return A character vector of the new cleaned up names
-#' @noRd
 #' @keywords internal
 #' @inheritParams db_get
 
@@ -282,7 +287,6 @@ return_camelCase_names <-
 #' tables are likely to be added to the database that might be relevant.
 #'
 #' @inheritParams db_get
-#' @noRd
 #' @keywords internal
 #' @return Character vector - formatted column names in table
 
@@ -317,7 +321,6 @@ get_colnames <- function(table, raw, db) {
 #' Returns the column names for a given table in snake_case
 #'
 #' @return Character vector - formatted column names in table
-#' @noRd
 #' @keywords internal
 #' @inheritParams db_get
 
