@@ -56,9 +56,10 @@ current_db <- function() {
 #'
 #' @return Character vector — correctly formatted database name.
 #' @inheritParams db_get
+#' @param verbose Do you want the format explained when acceptable, but non-exact matching strings, are used?
 #' @export
 
-check_db <- function(db) {
+check_db <- function(db, verbose = FALSE) {
   if (is.null(db)) {
     return()
   }
@@ -71,7 +72,7 @@ check_db <- function(db) {
     if (!is_four_digits) {
       explain_db_format(type = 'stop', reason = 'incorrect_num_digits')
     }
-    if (is_four_digits) {
+    if (is_four_digits & verbose == TRUE) {
       explain_db_format(type = 'message', reason = 'digits_only')
     }
     db <- paste0("ORExt", db)

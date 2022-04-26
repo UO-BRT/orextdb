@@ -1,7 +1,7 @@
 #' Function to query the live OR Extended database and return specific tables
 #'
 #' @param table A string specifying the specific table from the Oregon Extended
-#'   live database. Should be one of "Accomodations", "Answers", "Districts",
+#'   live database. Should be one of "Accommodations", "Answers", "Districts",
 #'   "Exams", "Items", "Preferences", "Schools", "Students", "Students_old",
 #'   "Submissions", "SupplementalDistricts", "SupplementalSchools", "Tasks",
 #'   "User", "UserStudents", or "UserStudents_old".
