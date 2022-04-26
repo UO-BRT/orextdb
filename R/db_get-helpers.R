@@ -110,7 +110,6 @@ check_db <- function(db, verbose = FALSE) {
 #' item data are being returned).
 #'
 #' @inheritParams db_get
-#' @noRd
 #' @keywords internal
 #' @return Character vector — the raw data from the API
 
