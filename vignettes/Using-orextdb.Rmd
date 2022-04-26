@@ -46,7 +46,7 @@ This function is used internally if the user does not specify a specific databas
 As you can see, databases are formatted with the prefix `ORExt` followed by the academic year. Academic year is specified as the last two digits of each year in the academic year (e.g., 2018-2019 = `1819`, 2019-2020 = `1920`, etc.). Hence, the database for the 2018-2019 OR Extended Assessment is `ORExt1819`. If you are not sure if you've specified this correctly, you can check with `check_db()`. This function will also give you a message about how to fix your code, if you formatted this incorrectly.
 
 ```{r}
-check_db('1819')
+check_db('1819', verbose = TRUE)
 ```
 
 # Retreive table from database
