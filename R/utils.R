@@ -3,15 +3,14 @@
 #' Infix function to paste long strings together a little easier
 #'
 #' @keywords internal
-#' @noRd
 #' @param lhs = character vector to paste on left
 #' @param rhs = character vector to paste on right
+#' @return character vector comprised of \code{lhs} & \code{rhs}
 `%p%` <- function(lhs, rhs) {
   paste0(lhs, rhs)
 }
 
 #' internal tests - determining if tibble is installed
-#'
 #'
 #' @keywords internal
 #' @noRd
@@ -22,11 +21,11 @@ is_tibble_installed <- function() {
 #' explain how to format the database specification when misspecified
 #'
 #' @keywords internal
-#' @noRd
 #' @param type = character vector indicating either c('message', 'stop')
 #' which passes to respective functions
 #' @param reason = character vector indicating the way they misspecified
 #'  (changes Note 1 of 2)
+#' @return message about database formatting
 
 explain_db_format <-
   function(type, reason){

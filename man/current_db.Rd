@@ -14,3 +14,9 @@ Character vector — the most recent database name.
 Determines the current db based on the system date
 Creates a string with the name of the db
 }
+\examples{
+library(orextdb)
+\dontrun{
+current_db()
+}
+}

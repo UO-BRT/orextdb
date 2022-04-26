@@ -6,6 +6,9 @@
 \usage{
 db_key()
 }
+\value{
+Either your api key or a message explaining how to load it
+}
 \description{
 This function is primarily used as the default argument for \code{\link[=db_get]{db_get()}}, but
 can be run at any time to access your specific key. Note that you should
@@ -17,4 +20,5 @@ first set your key with \code{\link[=db_set_key]{db_set_key()}}.
 library(orextdb)
 db_key()
 }
+
 }

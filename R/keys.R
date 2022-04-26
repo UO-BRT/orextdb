@@ -12,6 +12,8 @@
 #' library(orextdb)
 #' db_key()
 #' }
+#'
+#' @return Either your api key or a message explaining how to load it
 
 db_key <- function() {
   key <- Sys.getenv("or_ext_api_token")
@@ -36,15 +38,14 @@ db_key <- function() {
 #' @param key A string of your specific key
 #' @param overwrite Defaults to \code{FALSE}. If there is a key already in the
 #'   .Renviron, should it be overwritten?
-#'
 #' @export
-#'
 #' @examples
 #' library(orextdb)
 #'
 #' \dontrun{
 #' db_set_key("abcdefghikjlmnop")
 #' }
+#' @return A message or warning
 db_set_key <- function(key, overwrite = FALSE) {
   token <- paste0('or_ext_api_token = "', key, '"')
 
@@ -58,7 +59,7 @@ db_set_key <- function(key, overwrite = FALSE) {
 
   renviron <- readLines(file.path(home, ".Renviron"))
   current_token <- grep("or_ext_api_token", renviron)
-  
+
   if (length(current_token) > 0) {
     if (overwrite) {
       renviron[current_token] <- token
